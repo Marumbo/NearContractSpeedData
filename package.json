@@ -1,0 +1,15 @@
+{
+  "name": "nearcontractfromscratch",
+  "version": "1.0.0",
+  "description": "First contract from scratch deployed to testnet account not dev.",
+  "main": "index.js",
+  "scripts": {
+    "test": "asp",
+    "build":"asb"
+  },
+  "author": "Marumbo",
+  "license": "MIT",
+  "devDependencies": {
+    "near-sdk-as": "^3.2.3"
+  }
+}
