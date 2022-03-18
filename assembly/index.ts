@@ -1,4 +1,6 @@
 import {logging, storage, PersistentMap, context, PersistentVector} from "near-sdk-as"
+import { SpeedData } from "./model";
+import { ReturnAllSpeedCameraDataFunction, SetSpeedCameraDataFunction } from "./utils";
 
 export function HelloWorld(name:string):string{
 
@@ -6,45 +8,22 @@ export function HelloWorld(name:string):string{
     return `hello ${name}`
 }
 
-export function SetSpeedCameraData(speed:string, vehicleId:string, lat:string, lng:string):void{
+export function SetSpeedCameraData(speedData:SpeedData):void{
     
-    //setter needs to be unique so time stamp and camera names?? 
-    const mapVector = new PersistentVector<Map<string,string>>("SpeedData");
+    assert(parseInt(speedData.speed) > 40,"Speed must be above 40")
 
-    const eventTime = context.blockTimestamp.toString();
-   
-    let map = new Map<string, string>();
-    map.set("eventTime", `${eventTime}`);
-    map.set("speed", `${speed}`);
-    map.set("vehicleId", `${vehicleId}`);
-    map.set("lat", `${lat}`);
-    map.set("lng", `${lng}`);
-    map.set("sender", `${context.sender}`);
+    let setSpeedResponse = SetSpeedCameraDataFunction(speedData);
 
-    //add map data to vector
-    mapVector.push(map);
-
-    logging.log("Data added to map");
-
+    logging.log(`Set Speed Response ${setSpeedResponse}`)
+    
 }
 
 
 export function GetAllSpeedCameraData():Array<Map<string,string>>{
 
-    const mapVector = new PersistentVector<Map<string,string>>("SpeedData");
-    let map = new Map<string,string>();
     let result = new Array<Map<string,string>>();
+    result = ReturnAllSpeedCameraDataFunction();
 
-    for(let i = 0; i <mapVector.length; i++){
-        map.set("eventTime", `${mapVector[i].get("eventTime")}`);
-        map.set("speed", `${mapVector[i].get("speed")}`);
-        map.set("vehicleId",`${mapVector[i].get("vehicleId")}`);
-        map.set("lat", `${mapVector[i].get("lat")}`);
-        map.set("lng", `${mapVector[i].get("lng")}`);
-        map.set("sender", `${mapVector[i].get("sender")}`);
-
-        result.push(map);
-    }
     logging.log("Speed data returned");
     return result;
 }
