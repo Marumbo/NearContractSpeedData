@@ -21,6 +21,7 @@ export class SpeedData {
 
  SetSpeedCameraDataFunction(speedData: SpeedData):string{
     speedDataVector;
+    
     const eventTime = context.blockTimestamp.toString();
    
     let map = new Map<string, string>();
