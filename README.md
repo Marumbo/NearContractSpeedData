@@ -40,6 +40,12 @@ Typically run script commands in order of numbers
   5.get-camera-data.sh  # returns Camera specific data associated with Contract
     
 ```
-#
+# File Structure
+
+![file structure](./images/fileStructure.png)
+
+# Contributors
+
+ 	[Marumbo Sichinga](https://www.example.com)
 
 
