@@ -46,6 +46,6 @@ Typically run script commands in order of numbers
 
 # Contributors
 
- 	[Marumbo Sichinga](https://www.example.com)
+ 	![Marumbo Sichinga](https://www.example.com)
 
 
