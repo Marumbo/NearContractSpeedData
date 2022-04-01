@@ -45,7 +45,7 @@ Typically run script commands in order of numbers
 ![file structure](./images/fileStructure.png)
 
 # Contributors
-
- 	![Marumbo Sichinga](https://github.com/Marumbo)
+ 
+ [Marumbo Sichinga](https://github.com/Marumbo)
 
 
