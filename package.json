@@ -1,7 +1,7 @@
 {
-  "name": "nearcontractfromscratch",
+  "name": "overspeedingdata",
   "version": "1.0.0",
-  "description": "First contract from scratch deployed to testnet account not dev.",
+  "description": "Contract to record and pull speeding data form IOT devices with speed cameras.",
   "main": "index.js",
   "scripts": {
     "test": "asp",
