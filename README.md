@@ -8,6 +8,12 @@ NEAR protocol provides an easy to use layer that allows for the two worlds to co
 
 - Clone this repo
 - Run `yarn`
+- Run `yarn build`
+
+
+## Test 
+
+- Run `yarn test`
 
 ## Usage
 Some variables are expected to be set to use contract. 
@@ -33,11 +39,11 @@ Typically run script commands in order of numbers
 
   ```sh
 
-  1.dev-deploy.sh         # cleanup, compile and deploy contract
-  2.call-set-speed-data.sh # enters inital speed data , speed data should be edited for varied entries on subsequent runs
-  3.get-all-apeed-data.sh  # returns all speed data details associated with Contract details it is deployed to.
-  4.get-vehicle-data.sh  # returns Vehicle specific data assosicated with Contract
-  5.get-camera-data.sh  # returns Camera specific data associated with Contract
+  ./scripts/1.dev-deploy.sh         # cleanup, compile and deploy contract
+  ./scripts/2.call-set-speed-data.sh # enters inital speed data , speed data should be edited for varied entries on subsequent runs
+  ./scripts/3.get-all-apeed-data.sh  # returns all speed data details associated with Contract details it is deployed to.
+  ./scripts/4.get-vehicle-data.sh  # returns Vehicle specific data assosicated with Contract
+  ./scripts/5.get-camera-data.sh  # returns Camera specific data associated with Contract
     
 ```
 # File Structure

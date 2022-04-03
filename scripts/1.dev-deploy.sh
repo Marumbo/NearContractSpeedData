@@ -28,6 +28,8 @@ echo "redeploying the contract"
 echo
 near dev-deploy ./build/release/overspeedingdata.wasm
 
+# Run near deploy <yourAccountName.testnet> ./build/release/overspeedingdata.wasm
+#if you would like to deploy contact to your own account
 echo --------------------------------------------
 echo run the following commands
 echo
