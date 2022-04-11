@@ -1,49 +1,87 @@
-import {logging, storage, PersistentMap, context, PersistentVector} from "near-sdk-as"
-import { CameraData, Location, SpeedData } from "./model";
+import {logging, storage, PersistentMap, context, PersistentVector, datetime} from "near-sdk-as"
+import { CameraData, Position, SpeedData, VehicleData } from "./model";
+import { cameras } from "./storage";
 
 
-let location = new Location("","");
-let cameraData = new CameraData("",location)
+let location = new Position("","");
+let cameraData = new CameraData();
+let vehicleData = new VehicleData();
+let speedDataObject = new SpeedData(0,"", parseInt(Date.now().toString()));
 
-let speedDataObject = new SpeedData("","", cameraData);
 
-
-export function SetSpeedCameraData(speedData:SpeedData):void{
+export function SubmitOverSpeedTransaction(speed:number,vehiclePlate:string, datetime: number):void{
     
-    assert(parseInt(speedData.speed) > 40,"Speed must be above 40")
-
-    let speedDataObject = new SpeedData(speedData.speed,speedData.vehiclePlate,speedData.cameraData);
-
-    let setSpeedResponse = speedDataObject.SetSpeedCameraDataFunction(speedData);
-
+    assert(speed > 40,"Speed must be above 40")
+    let setSpeedResponse = speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
     logging.log(`Set Speed Response ${setSpeedResponse}`)
     
 }
 
 
-export function GetAllSpeedCameraData():Array<Map<string,string>>{
+export function GetAllOverSpeedingTransactions():Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
-    result = speedDataObject.ReturnAllSpeedCameraDataFunction();
+    result = speedDataObject.ReturnAllOverSpeedingTransactions();
 
     logging.log("Speed data returned");
     return result;
 }
 
-export function GetVehicleData(vehicleId:string):Array<Map<string,string>>{
-  
-    let result = new Array<Map<string,string>>();
-    result = speedDataObject.GetDataForVehicleId(vehicleId);
+export function RegisterCamera(location: Position):string{
 
-    logging.log("Vehicle data returned");
+    let result = cameraData.RegisterCamera(location);
+    logging.log("camera registered");
     return result;
 }
 
-export function GetCameraData(cameraId:string):Array<Map<string,string>>{
-  
-    let result = new Array<Map<string,string>>();
-    result = speedDataObject.GetDataForCameraId(cameraId);
+export function ListOfCameras():Array<Map<string,string>>{
 
-    logging.log("Camera data returned");
+    let result = new Array<Map<string,string>>();
+    result = cameraData.ListOfCameras();
+    logging.log("List of cameras returned.");
     return result;
 }
+
+export function CameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
+
+    let result = new Array<Map<string,string>>();
+    result = speedDataObject.GetCameraOverSpeedTransactions(cameraId);
+
+    logging.log(" camera id specifc data returned");
+    return result;
+
+}
+
+export function RegisterVehicle(vehiclePlate:string):string{
+    
+    let result = vehicleData.RegisterVehicle(vehiclePlate);
+    logging.log("vehicle registered");
+    return result;
+}
+
+export function ListOfVehicles():Array<Map<string,string>>{
+
+    let result = new Array<Map<string,string>>();
+    result = vehicleData.ListAllVehicles();
+    logging.log("List of all registered vehicles");
+    return result;
+}
+
+
+export function ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
+
+    let result = vehicleData.ListMyVehicles(ownderId);
+    logging.log("List of all registered vehicles");
+    return result;
+}
+
+export function VehicleOverSpeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
+
+    let result = new Array<Map<string,string>>();
+    result = speedDataObject.GetVehicleIdOverspeedTransactions(vehiclePlate);
+
+    logging.log(" Vehicle specifc data returned");
+    return result;
+
+}
+

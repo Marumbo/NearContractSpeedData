@@ -1,13 +1,13 @@
 import { GetAllSpeedCameraData, SetSpeedCameraData } from "..";
 
 import { PersistentVector, VMContext, VM } from "near-sdk-as";
-import { CameraData, Location, SpeedData } from "../model";
+import { CameraData, Position, SpeedData } from "../model";
 
 const contract = "speedData";
 const alice = "alice";
 
 
-let location = new Location("","");
+let location = new Position("","");
 let cameraData = new CameraData("",location)
 
 let speedDataObject = new SpeedData("","", cameraData);

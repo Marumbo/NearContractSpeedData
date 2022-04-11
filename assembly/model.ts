@@ -1,63 +1,66 @@
 import { context, logging } from 'near-sdk-as';
-import { speedDataVector } from './storage';
+import { cameras, overSpeedTransaction, vehicles } from './storage';
 
 @nearBindgen
 export class SpeedData {
-    public speed: string;
-    public vehiclePlate: string;
-  public cameraData: CameraData;
+    private speed: number;
+    private vehiclePlate: string;
+    private cameraId : string;
+    private cameraTime: number;
+    private signedTime: u64;
 
  constructor(
 
-     speed: string,
+     speed: number,
       vehiclePlate: string,
-   cameraData: CameraData
+      cameraTime : number
  ) 
  { 
-     this.speed = speed,
-     this.vehiclePlate =vehiclePlate,
-     this.cameraData = cameraData
+     this.speed = speed;
+     this.vehiclePlate = vehiclePlate;
+     this.cameraTime = cameraTime;
  }
 
- SetSpeedCameraDataFunction(speedData: SpeedData):string{
-    speedDataVector;
+ SubmitOverSpeedTransaction(speed:number, vehiclePlate: string, cameraTime: number):string{
+    overSpeedTransaction;
     
-    const eventTime = context.blockTimestamp.toString();
-   
+    this.speed = speed;
+    this.vehiclePlate = vehiclePlate;
+    this.cameraTime =cameraTime;
+    this.signedTime = context.blockTimestamp;
+   this.cameraId = context.sender;
+
     let map = new Map<string, string>();
-    map.set("eventTime", `${eventTime}`);
-    map.set("speed", `${speedData.speed}`);
-    map.set("vehicleId", `${speedData.vehiclePlate}`);
-    map.set("lat", `${speedData.cameraData.location.lat}`);
-    map.set("lng", `${speedData.cameraData.location.lng}`);
-    map.set("cameraId", `${speedData.cameraData.cameraId}`)
-    map.set("sender", `${context.sender}`);
+    map.set("speed", `${speed}`);
+    map.set("vehiclePlate", `${vehiclePlate}`);
+    map.set("cameraId", `${this.cameraId}`);
+    map.set("cameraTime", `${this.cameraTime}`);
+    map.set("signedTime", `${this.signedTime}`);
 
     //add map data to vector
-   speedDataVector.push(map);
+   overSpeedTransaction.push(map);
 
-    logging.log("Data added to map");
+    logging.log("Data added to overspeeding transactions");
 
-    return "Data added to map";
+    return "Data added to overspeeding transactions";
 }
 
-ReturnAllSpeedCameraDataFunction():Array<Map<string,string>>{
+ReturnAllOverSpeedingTransactions():Array<Map<string,string>>{
 
-    speedDataVector;
+    overSpeedTransaction;
 
    
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <speedDataVector.length; i++){
+    for(let i:number = 0; i <overSpeedTransaction.length; i++){
         
         let map = new Map<string,string>();
-        map.set("eventTime", `${speedDataVector[<i32>i].get("eventTime")}`);
-        map.set("speed", `${speedDataVector[<i32>i].get("speed")}`);
-        map.set("vehicleId",`${speedDataVector[<i32>i].get("vehicleId")}`);
-        map.set("lat", `${speedDataVector[<i32>i].get("lat")}`);
-        map.set("lng", `${speedDataVector[<i32>i].get("lng")}`);
-        map.set("cameraId", `${speedDataVector[<i32>i].get("cameraId")}`);
-        map.set("sender", `${speedDataVector[<i32>i].get("sender")}`);    
+        map.set("speed", `${overSpeedTransaction[<i32>i].get("speed")}`);
+        map.set("vehiclePlate", `${overSpeedTransaction[<i32>i].get("vehiclePlate")}`);
+        map.set("cameraId",`${overSpeedTransaction[<i32>i].get("cameraId")}`);
+        map.set("cameraTime", `${overSpeedTransaction[<i32>i].get("cameraTime")}`);
+        map.set("signedTime", `${overSpeedTransaction[<i32>i].get("signedTime")}`);
+       
         
         result.push(map);  
     }
@@ -65,51 +68,55 @@ ReturnAllSpeedCameraDataFunction():Array<Map<string,string>>{
     return result;
 }
 
-GetDataForVehicleId(vehicleId:string):Array<Map<string,string>>{
+GetVehicleIdOverspeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
 
-    speedDataVector;
+    overSpeedTransaction;
 
    
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <speedDataVector.length; i++){
-        if(speedDataVector[<i32>i].get("vehicleId") == vehicleId){
+    for(let i:number = 0; i <overSpeedTransaction.length; i++){
+        if(overSpeedTransaction[<i32>i].get("vehiclePlate") == vehiclePlate ){
+
             let map = new Map<string,string>();
-            map.set("eventTime", `${speedDataVector[<i32>i].get("eventTime")}`);
-            map.set("speed", `${speedDataVector[<i32>i].get("speed")}`);
-            map.set("vehicleId",`${speedDataVector[<i32>i].get("vehicleId")}`);
-            map.set("lat", `${speedDataVector[<i32>i].get("lat")}`);
-            map.set("lng", `${speedDataVector[<i32>i].get("lng")}`);
-            map.set("cameraId", `${speedDataVector[<i32>i].get("cameraId")}`);
-            map.set("sender", `${speedDataVector[<i32>i].get("sender")}`);    
+            map.set("speed", `${overSpeedTransaction[<i32>i].get("speed")}`);
+            map.set("vehiclePlate", `${overSpeedTransaction[<i32>i].get("vehiclePlate")}`);
+            map.set("cameraId",`${overSpeedTransaction[<i32>i].get("cameraId")}`);
+            map.set("cameraTime", `${overSpeedTransaction[<i32>i].get("cameraTime")}`);
+            map.set("signedTime", `${overSpeedTransaction[<i32>i].get("signedTime")}`);
+            
+            
             result.push(map);  
         }
     }
+
     return result;
 
 }
 
 
-GetDataForCameraId(cameraId:string):Array<Map<string,string>>{
+GetCameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
 
-    speedDataVector;
+    overSpeedTransaction;
 
    
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <speedDataVector.length; i++){
-        if(speedDataVector[<i32>i].get("cameraId") == cameraId){
+    for(let i:number = 0; i <overSpeedTransaction.length; i++){
+        if(overSpeedTransaction[<i32>i].get("cameraId") == cameraId || overSpeedTransaction[<i32>i].get("cameraId") == context.sender ){
+
             let map = new Map<string,string>();
-            map.set("eventTime", `${speedDataVector[<i32>i].get("eventTime")}`);
-            map.set("speed", `${speedDataVector[<i32>i].get("speed")}`);
-            map.set("vehicleId",`${speedDataVector[<i32>i].get("vehicleId")}`);
-            map.set("lat", `${speedDataVector[<i32>i].get("lat")}`);
-            map.set("lng", `${speedDataVector[<i32>i].get("lng")}`);
-            map.set("cameraId", `${speedDataVector[<i32>i].get("cameraId")}`);
-            map.set("sender", `${speedDataVector[<i32>i].get("sender")}`);    
+            map.set("speed", `${overSpeedTransaction[<i32>i].get("speed")}`);
+            map.set("vehiclePlate", `${overSpeedTransaction[<i32>i].get("vehiclePlate")}`);
+            map.set("cameraId",`${overSpeedTransaction[<i32>i].get("cameraId")}`);
+            map.set("cameraTime", `${overSpeedTransaction[<i32>i].get("cameraTime")}`);
+            map.set("signedTime", `${overSpeedTransaction[<i32>i].get("signedTime")}`);
+            
+            
             result.push(map);  
         }
     }
+
     return result;
 
 }
@@ -119,15 +126,110 @@ GetDataForCameraId(cameraId:string):Array<Map<string,string>>{
 
 @nearBindgen
 export class CameraData {
+    private cameraId: string
+    private location: Position
 constructor(
-   public cameraId: string,
-    public location: Location
+ 
 ){}
+
+RegisterCamera(location:Position): string{
+
+    this.location = location;
+    this.cameraId = context.sender;
+
+    let map = new Map<string,string>();
+
+    map.set("cameraId",this.cameraId);
+    map.set("latitude",this.location.lat);
+    map.set("longitude",this.location.lng);
+
+    cameras.push(map);
+
+    logging.log("Camera data added to map");
+
+    return "Camera data added to map";
+}
+
+ListOfCameras(): Array<Map<string,string>>{
+    
+    let result = new Array<Map<string,string>>();
+
+    for(let i:number = 0; i <cameras.length; i++){
+        
+        let map = new Map<string,string>();
+        map.set("cameraId", `${cameras[<i32>i].get("cameraId")}`);
+        map.set("latitude", `${cameras[<i32>i].get("latitude")}`);
+        map.set("latitude", `${cameras[<i32>i].get("longitude")}`);
+    
+        result.push(map);  
+    }
+
+    return result;
+}
+}
+
+@nearBindgen
+export class VehicleData {
+    private ownderId: string;
+    private plate: string
+    constructor(
+    
+){
+
+}
+
+RegisterVehicle(vehiclePlate: string): string{
+    this.ownderId = context.sender;
+    this.plate = vehiclePlate;
+    let map = new Map<string,string>();
+    map.set("ownerId", this.ownderId);
+    map.set("vehiclePlate",this.plate);
+
+    vehicles.push(map);
+
+    logging.log("Vehicle registered");
+
+    return "Vehicle registered";
+}
+
+ListAllVehicles(): Array<Map<string,string>>{
+
+    let result = new Array<Map<string,string>>();
+
+    for(let i:number = 0; i <vehicles.length; i++){
+        
+        let map = new Map<string,string>();
+        map.set("ownerId", `${vehicles[<i32>i].get("ownerId")}`);
+        map.set("vehiclePlate", `${vehicles[<i32>i].get("vehiclePlate")}`);
+
+        result.push(map);  
+    }
+
+    return result;
+}
+
+ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
+
+    let result = new Array<Map<string,string>>();
+
+    for(let i:number = 0; i <vehicles.length; i++){
+        
+        if( vehicles[<i32>i].get("ownerId") == ownderId||vehicles[<i32>i].get("ownerId") == context.sender){
+
+            let map = new Map<string,string>();
+            map.set("ownerId", `${vehicles[<i32>i].get("ownerId")}`);
+            map.set("vehiclePlate", `${vehicles[<i32>i].get("vehiclePlate")}`);        
+            result.push(map);  
+        }
+    }
+
+    return result;
+}
 
 }
 
 @nearBindgen
-export class Location {
+export class Position {
     constructor(
         public lat: string,
         public lng: string,
