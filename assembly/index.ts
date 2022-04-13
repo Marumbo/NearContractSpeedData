@@ -1,6 +1,6 @@
 import {logging, storage, PersistentMap, context, PersistentVector, datetime} from "near-sdk-as"
 import { CameraData, Position, SpeedData, VehicleData } from "./model";
-import { cameras } from "./storage";
+import { cameraStorage } from "./storage";
 
 
 let location = new Position("","");
@@ -8,8 +8,13 @@ let cameraData = new CameraData();
 let vehicleData = new VehicleData();
 let speedDataObject = new SpeedData(0,"", parseInt(Date.now().toString()));
 
+export function helloWorld(): string {
+    logging.log("Maru hello world log!")
+    
+    return 'hello world'
+  }
 
-export function SubmitOverSpeedTransaction(speed:number,vehiclePlate:string, datetime: number):void{
+export function submitOverSpeedTransaction(speed:number,vehiclePlate:string, datetime: number):void{
     
     assert(speed > 40,"Speed must be above 40")
     let setSpeedResponse = speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
@@ -18,7 +23,7 @@ export function SubmitOverSpeedTransaction(speed:number,vehiclePlate:string, dat
 }
 
 
-export function GetAllOverSpeedingTransactions():Array<Map<string,string>>{
+export function getAllOverSpeedingTransactions():Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = speedDataObject.ReturnAllOverSpeedingTransactions();
@@ -27,14 +32,14 @@ export function GetAllOverSpeedingTransactions():Array<Map<string,string>>{
     return result;
 }
 
-export function RegisterCamera(location: Position):string{
+export function registerCamera(location: Position):string{
 
     let result = cameraData.RegisterCamera(location);
     logging.log("camera registered");
     return result;
 }
 
-export function ListOfCameras():Array<Map<string,string>>{
+export function listOfCameras():Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = cameraData.ListOfCameras();
@@ -42,7 +47,7 @@ export function ListOfCameras():Array<Map<string,string>>{
     return result;
 }
 
-export function CameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
+export function cameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = speedDataObject.GetCameraOverSpeedTransactions(cameraId);
@@ -52,14 +57,14 @@ export function CameraOverSpeedTransactions(cameraId?:string):Array<Map<string,s
 
 }
 
-export function RegisterVehicle(vehiclePlate:string):string{
+export function registerVehicle(vehiclePlate:string):string{
     
     let result = vehicleData.RegisterVehicle(vehiclePlate);
     logging.log("vehicle registered");
     return result;
 }
 
-export function ListOfVehicles():Array<Map<string,string>>{
+export function listOfVehicles():Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = vehicleData.ListAllVehicles();
@@ -68,14 +73,14 @@ export function ListOfVehicles():Array<Map<string,string>>{
 }
 
 
-export function ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
+export function listMyVehicles(ownderId?:string):Array<Map<string,string>>{
 
     let result = vehicleData.ListMyVehicles(ownderId);
     logging.log("List of all registered vehicles");
     return result;
 }
 
-export function VehicleOverSpeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
+export function vehicleOverSpeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = speedDataObject.GetVehicleIdOverspeedTransactions(vehiclePlate);

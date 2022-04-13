@@ -1,5 +1,5 @@
 import { context, logging } from 'near-sdk-as';
-import { cameras, overSpeedTransaction, vehicles } from './storage';
+import { cameraStorage, overSpeedTransaction, vehicleStorage } from './storage';
 
 @nearBindgen
 export class SpeedData {
@@ -143,7 +143,7 @@ RegisterCamera(location:Position): string{
     map.set("latitude",this.location.lat);
     map.set("longitude",this.location.lng);
 
-    cameras.push(map);
+    cameraStorage.push(map);
 
     logging.log("Camera data added to map");
 
@@ -154,12 +154,12 @@ ListOfCameras(): Array<Map<string,string>>{
     
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <cameras.length; i++){
+    for(let i:number = 0; i <cameraStorage.length; i++){
         
         let map = new Map<string,string>();
-        map.set("cameraId", `${cameras[<i32>i].get("cameraId")}`);
-        map.set("latitude", `${cameras[<i32>i].get("latitude")}`);
-        map.set("latitude", `${cameras[<i32>i].get("longitude")}`);
+        map.set("cameraId", `${cameraStorage[<i32>i].get("cameraId")}`);
+        map.set("latitude", `${cameraStorage[<i32>i].get("latitude")}`);
+        map.set("latitude", `${cameraStorage[<i32>i].get("longitude")}`);
     
         result.push(map);  
     }
@@ -185,7 +185,7 @@ RegisterVehicle(vehiclePlate: string): string{
     map.set("ownerId", this.ownderId);
     map.set("vehiclePlate",this.plate);
 
-    vehicles.push(map);
+    vehicleStorage.push(map);
 
     logging.log("Vehicle registered");
 
@@ -196,11 +196,11 @@ ListAllVehicles(): Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <vehicles.length; i++){
+    for(let i:number = 0; i <vehicleStorage.length; i++){
         
         let map = new Map<string,string>();
-        map.set("ownerId", `${vehicles[<i32>i].get("ownerId")}`);
-        map.set("vehiclePlate", `${vehicles[<i32>i].get("vehiclePlate")}`);
+        map.set("ownerId", `${vehicleStorage[<i32>i].get("ownerId")}`);
+        map.set("vehiclePlate", `${vehicleStorage[<i32>i].get("vehiclePlate")}`);
 
         result.push(map);  
     }
@@ -212,13 +212,13 @@ ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
 
-    for(let i:number = 0; i <vehicles.length; i++){
+    for(let i:number = 0; i <vehicleStorage.length; i++){
         
-        if( vehicles[<i32>i].get("ownerId") == ownderId||vehicles[<i32>i].get("ownerId") == context.sender){
+        if( vehicleStorage[<i32>i].get("ownerId") == ownderId||vehicleStorage[<i32>i].get("ownerId") == context.sender){
 
             let map = new Map<string,string>();
-            map.set("ownerId", `${vehicles[<i32>i].get("ownerId")}`);
-            map.set("vehiclePlate", `${vehicles[<i32>i].get("vehiclePlate")}`);        
+            map.set("ownerId", `${vehicleStorage[<i32>i].get("ownerId")}`);
+            map.set("vehiclePlate", `${vehicleStorage[<i32>i].get("vehiclePlate")}`);        
             result.push(map);  
         }
     }
