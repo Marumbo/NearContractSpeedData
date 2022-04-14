@@ -6,7 +6,7 @@ import { cameraStorage } from "./storage";
 let location = new Position("","");
 let cameraData = new CameraData();
 let vehicleData = new VehicleData();
-let speedDataObject = new SpeedData(0,"", parseInt(Date.now().toString()));
+let speedDataObject = new SpeedData(0,"", <u64>(Date.now()));
 
 export function helloWorld(): string {
     logging.log("Maru hello world log!")
@@ -14,7 +14,7 @@ export function helloWorld(): string {
     return 'hello world'
   }
 
-export function submitOverSpeedTransaction(speed:number,vehiclePlate:string, datetime: number):void{
+export function submitOverSpeedTransaction(speed:u64,vehiclePlate:string, datetime: u64):void{
     
     assert(speed > 40,"Speed must be above 40")
     let setSpeedResponse = speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
