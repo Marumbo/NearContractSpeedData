@@ -68,7 +68,7 @@ ReturnAllOverSpeedingTransactions():Array<Map<string,string>>{
     return result;
 }
 
-GetVehicleIdOverspeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
+GetVehicleIdOverspeedTransactions(vehiclePlate:string):Array<Map<string,string>>{
 
     overSpeedTransaction;
 
@@ -159,7 +159,7 @@ ListOfCameras(): Array<Map<string,string>>{
         let map = new Map<string,string>();
         map.set("cameraId", `${cameraStorage[<i32>i].get("cameraId")}`);
         map.set("latitude", `${cameraStorage[<i32>i].get("latitude")}`);
-        map.set("latitude", `${cameraStorage[<i32>i].get("longitude")}`);
+        map.set("longitude", `${cameraStorage[<i32>i].get("longitude")}`);
     
         result.push(map);  
     }
@@ -208,13 +208,13 @@ ListAllVehicles(): Array<Map<string,string>>{
     return result;
 }
 
-ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
+ListMyVehicles(ownerId?:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
 
     for(let i:number = 0; i <vehicleStorage.length; i++){
         
-        if( vehicleStorage[<i32>i].get("ownerId") == ownderId||vehicleStorage[<i32>i].get("ownerId") == context.sender){
+        if( vehicleStorage[<i32>i].get("ownerId") == ownerId || vehicleStorage[<i32>i].get("ownerId") == context?.sender){
 
             let map = new Map<string,string>();
             map.set("ownerId", `${vehicleStorage[<i32>i].get("ownerId")}`);
