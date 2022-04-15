@@ -3,17 +3,17 @@ import { cameraStorage, overSpeedTransaction, vehicleStorage } from './storage';
 
 @nearBindgen
 export class SpeedData {
-    private speed: u64;
+    private speed: i32;
     private vehiclePlate: string;
     private cameraId : string;
-    private cameraTime: u64;
+    private cameraTime: i32;
     private signedTime: u64;
 
  constructor(
 
-     speed: u64,
+     speed: i32,
       vehiclePlate: string,
-      cameraTime : u64 
+      cameraTime : i32 
       ) 
  { 
      this.speed = speed;
@@ -21,7 +21,7 @@ export class SpeedData {
      this.cameraTime = cameraTime;
  }
 
- SubmitOverSpeedTransaction(speed:u64, vehiclePlate: string, cameraTime: u64):string{
+ SubmitOverSpeedTransaction(speed:i32, vehiclePlate: string, cameraTime:i32):string{
     overSpeedTransaction;
     
     this.speed = speed;

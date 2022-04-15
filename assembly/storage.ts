@@ -1,5 +1,5 @@
 import { PersistentMap, PersistentVector } from "near-sdk-as";
-import { Position } from "./model";
+
 
 export const overSpeedTransaction = new PersistentVector<Map<string,string>>("OverSpeedTransaction");
 

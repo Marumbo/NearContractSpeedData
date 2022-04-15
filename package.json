@@ -1,5 +1,5 @@
 {
-  "name": "overspeedingdata",
+  "name": "overspeeding",
   "version": "1.0.0",
   "description": "Contract to record and pull speeding data form IOT devices with speed cameras.",
   "main": "index.js",

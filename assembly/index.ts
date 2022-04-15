@@ -1,20 +1,12 @@
-import {logging, storage, PersistentMap, context, PersistentVector, datetime} from "near-sdk-as"
+import {logging} from "near-sdk-as"
 import { CameraData, Position, SpeedData, VehicleData } from "./model";
-import { cameraStorage } from "./storage";
 
-
-let location = new Position("","");
 let cameraData = new CameraData();
 let vehicleData = new VehicleData();
-let speedDataObject = new SpeedData(0,"", <u64>(Date.now()));
+let speedDataObject = new SpeedData(0,"", 1);
 
-export function helloWorld(): string {
-    logging.log("Maru hello world log!")
-    
-    return 'hello world'
-  }
 
-export function submitOverSpeedTransaction(speed:u64,vehiclePlate:string, datetime: u64):void{
+export function submitOverSpeedTransaction(speed:i32,vehiclePlate:string, datetime: i32):void{
     
     assert(speed > 40,"Speed must be above 40")
     let setSpeedResponse = speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
