@@ -39,7 +39,7 @@ export function listOfCameras():Array<Map<string,string>>{
     return result;
 }
 
-export function cameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
+export function cameraOverSpeedTransactions(cameraId:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
     result = speedDataObject.GetCameraOverSpeedTransactions(cameraId);
@@ -65,7 +65,7 @@ export function listOfVehicles():Array<Map<string,string>>{
 }
 
 
-export function listMyVehicles(ownerId?:string):Array<Map<string,string>>{
+export function listMyVehicles(ownerId:string):Array<Map<string,string>>{
 
     let result = vehicleData.ListMyVehicles(ownerId);
     logging.log("List of all registered vehicles");
