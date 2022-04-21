@@ -3,17 +3,17 @@ import { cameras, overSpeedTransaction, vehicles } from './storage';
 
 @nearBindgen
 export class SpeedData {
-    private speed: number;
+    private speed: i32;
     private vehiclePlate: string;
     private cameraId : string;
-    private cameraTime: number;
+    private cameraTime: f32;
     private signedTime: u64;
 
  constructor(
 
-     speed: number,
+     speed: i32,
       vehiclePlate: string,
-      cameraTime : number
+      cameraTime : f32
  ) 
  { 
      this.speed = speed;
@@ -21,7 +21,7 @@ export class SpeedData {
      this.cameraTime = cameraTime;
  }
 
- SubmitOverSpeedTransaction(speed:number, vehiclePlate: string, cameraTime: number):string{
+ SubmitOverSpeedTransaction(speed:i32, vehiclePlate: string, cameraTime: f32):string{
     overSpeedTransaction;
     
     this.speed = speed;
@@ -68,7 +68,7 @@ ReturnAllOverSpeedingTransactions():Array<Map<string,string>>{
     return result;
 }
 
-GetVehicleIdOverspeedTransactions(vehiclePlate?:string):Array<Map<string,string>>{
+GetVehicleIdOverspeedTransactions(vehiclePlate:string):Array<Map<string,string>>{
 
     overSpeedTransaction;
 
@@ -95,7 +95,7 @@ GetVehicleIdOverspeedTransactions(vehiclePlate?:string):Array<Map<string,string>
 }
 
 
-GetCameraOverSpeedTransactions(cameraId?:string):Array<Map<string,string>>{
+GetCameraOverSpeedTransactions(cameraId:string):Array<Map<string,string>>{
 
     overSpeedTransaction;
 
@@ -134,14 +134,14 @@ constructor(
 
 RegisterCamera(location:Position): string{
 
-    this.location = location;
+   // this.location = location;
     this.cameraId = context.sender;
 
     let map = new Map<string,string>();
 
     map.set("cameraId",this.cameraId);
-    map.set("latitude",this.location.lat);
-    map.set("longitude",this.location.lng);
+    map.set("latitude",location.lat);
+    map.set("longitude",location.lng);
 
     cameras.push(map);
 
@@ -159,7 +159,7 @@ ListOfCameras(): Array<Map<string,string>>{
         let map = new Map<string,string>();
         map.set("cameraId", `${cameras[<i32>i].get("cameraId")}`);
         map.set("latitude", `${cameras[<i32>i].get("latitude")}`);
-        map.set("latitude", `${cameras[<i32>i].get("longitude")}`);
+        map.set("longitude", `${cameras[<i32>i].get("longitude")}`);
     
         result.push(map);  
     }
@@ -208,7 +208,7 @@ ListAllVehicles(): Array<Map<string,string>>{
     return result;
 }
 
-ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
+ListMyVehicles(ownderId:string):Array<Map<string,string>>{
 
     let result = new Array<Map<string,string>>();
 
@@ -230,8 +230,11 @@ ListMyVehicles(ownderId?:string):Array<Map<string,string>>{
 
 @nearBindgen
 export class Position {
+    
     constructor(
         public lat: string,
         public lng: string,
-    ){ }
+    ){
+        
+     }
 }
