@@ -103,7 +103,7 @@ GetCameraOverSpeedTransactions(cameraId:string):Array<Map<string,string>>{
     let result = new Array<Map<string,string>>();
 
     for(let i:number = 0; i <overSpeedTransaction.length; i++){
-        if(overSpeedTransaction[<i32>i].get("cameraId") == cameraId || overSpeedTransaction[<i32>i].get("cameraId") == context.sender ){
+        if(overSpeedTransaction[<i32>i].get("cameraId") == cameraId){
 
             let map = new Map<string,string>();
             map.set("speed", `${overSpeedTransaction[<i32>i].get("speed")}`);
@@ -214,7 +214,7 @@ ListMyVehicles(ownderId:string):Array<Map<string,string>>{
 
     for(let i:number = 0; i <vehicles.length; i++){
         
-        if( vehicles[<i32>i].get("ownerId") == ownderId||vehicles[<i32>i].get("ownerId") == context.sender){
+        if( vehicles[<i32>i].get("ownerId") == ownderId){
 
             let map = new Map<string,string>();
             map.set("ownerId", `${vehicles[<i32>i].get("ownerId")}`);

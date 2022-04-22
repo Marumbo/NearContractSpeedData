@@ -35,7 +35,8 @@ echo run the following commands
 echo
 echo 'export CONTRACT=<dev-123-456>'
 echo 'export OWNER=<your own account>'
-echo "near call \$CONTRACT init '{\"owner\":\"'\$OWNER'\"}' --accountId \$CONTRACT"
+echo 'export CAMERA=<your account or sub-account for camera account>'
+echo 'export VEHICLE=<your account or sub-account for vehicle account>'
 echo
 echo
 

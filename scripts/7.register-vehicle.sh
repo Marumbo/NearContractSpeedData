@@ -2,21 +2,22 @@
 
 [ -z "$CONTRACT" ] && echo "Missing \$CONTRACT environment variable"
 [ -z "$OWNER" ] && echo "Missing \$OWNER environment variable"
+[ -z "$VEHICLE" ] && echo "Missing \$VEHICLE environment variable"
 
 
-echo "Calling set speed data template"
+echo "Register Vehicle"
 echo
 echo 
 
 echo --------------------------------------------
 echo
-echo near call \$CONTRACT SubmitOverSpeedTransaction '{"speed": 78,"vehiclePlate":"LO456", "datetime":23344.1234}' --accountId \$CAMERA
+echo near call \$CONTRACT RegisterVehicle '{"vehiclePlate":"LO234"}' --accountId \$VEHICLE
 echo 
 echo --------------------------------------------
 
 
 
-near call $CONTRACT SubmitOverSpeedTransaction '{"speed": 78,"vehiclePlate":"LO456", "datetime":23344.1234}' --accountId $CAMERA
+near call $CONTRACT RegisterVehicle '{"vehiclePlate":"LO234"}' --accountId $VEHICLE
 
 echo "Change template data entries on subsequent runs to ensure data change"
 echo

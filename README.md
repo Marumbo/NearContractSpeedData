@@ -25,7 +25,9 @@ Scripts are available with hints on data to enter for variables.
   ```sh
   export CONTRACT=        # depends on deployment
   export OWNER=           # any account you control
-
+  export CAMERA=          #camera demo account, suggested sub-account of your account 
+  export VEHICLE=         #vehicle owner demo account, suggested sub-account of your account 
+  
   # for example
   # export CONTRACT=dev-1615190770786-2702449
   # export OWNER=<youraccount>.testnet
@@ -40,10 +42,18 @@ Typically run script commands in order of numbers
   ```sh
 
   ./scripts/1.dev-deploy.sh         # cleanup, compile and deploy contract
-  ./scripts/2.call-set-speed-data.sh # enters inital speed data , speed data should be edited for varied entries on subsequent runs
-  ./scripts/3.get-all-apeed-data.sh  # returns all speed data details associated with Contract details it is deployed to.
-  ./scripts/4.get-vehicle-data.sh  # returns Vehicle specific data assosicated with Contract
-  ./scripts/5.get-camera-data.sh  # returns Camera specific data associated with Contract
+  ./scripts/2.call-set-speed-data.sh # enters inital speed,vehicle palte, datetime from IOT device 
+  ./scripts/3.get-all-overspeeding-data.sh  # returns all speed data details associated with Contract details it is deployed to.
+  ./scripts/4.register-camera.sh  # registers IOT device camera accounts to submit data to contract
+  ./scripts/5.list-of-cameras.sh  # returns list of cameras
+  ./scripts/6.camera-specific-overspeed-data.sh  # returns list of cameras
+  ./scripts/7.register-vehicle.sh  # registers vehicles associated specific vehicle owner
+  ./scripts/8.list-of-vehicles.sh  # returns list of vehicles
+  ./scripts/9.list-my-vehicles.sh #returns list of vehicles associated with owner account id
+   ./scripts/9.list-my-vehicles.sh #returns list of vehicles associated with owner account id
+
+
+
     
 ```
 # File Structure

@@ -4,17 +4,17 @@
 [ -z "$OWNER" ] && echo "Missing \$OWNER environment variable"
 
 
-echo "View all speed data set on contract"
+echo "View all over speeding data on contract"
 echo
 echo 
 
 echo --------------------------------------------
 echo
-echo near view \$CONTRACT GetAllSpeedCameraData
+echo near view \$CONTRACT GetAllOverSpeedingTransactions
 echo 
 echo --------------------------------------------
 
-near view $CONTRACT GetAllSpeedCameraData
+near view \$CONTRACT GetAllOverSpeedingTransactions
 
 echo "Array of all data set from contract"
 echo "if empty run script 2 to enter sample data"
