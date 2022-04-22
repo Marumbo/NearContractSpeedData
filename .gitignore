@@ -1,0 +1,6 @@
+#Build folder ignore
+**/build
+
+#node_modules untrack
+
+node_modules/
