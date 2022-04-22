@@ -1,4 +1,4 @@
-import {logging, storage, PersistentMap, context, PersistentVector, datetime} from "near-sdk-as"
+import {logging} from "near-sdk-as"
 import { CameraData, Position, SpeedData, VehicleData } from "./model";
 
 
@@ -10,8 +10,8 @@ let speedDataObject = new SpeedData(0,"", 0.0);
 export function SubmitOverSpeedTransaction(speed:i32,vehiclePlate:string, datetime: f32):void{
     
     assert(speed > 40,"Speed must be above 40")
-    let setSpeedResponse = speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
-    logging.log(`Set Speed Response ${setSpeedResponse}`)
+    speedDataObject.SubmitOverSpeedTransaction(speed,vehiclePlate, datetime);
+    logging.log("Data added to overspeeding transactions")
     
 }
 
