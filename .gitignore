@@ -4,3 +4,7 @@
 #node_modules untrack
 
 node_modules/
+
+#near dev
+
+neardev/
