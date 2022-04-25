@@ -19,6 +19,10 @@ set -e
 echo --------------------------------------------
 echo
 echo "rebuilding the contract"
+echo "Ensure  Near SDK is installed to run build"
+echo
+echo "if build fails, run 'yarn add -D near-sdk-as' "
+echo
 echo
 yarn build
 
